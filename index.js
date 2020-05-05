@@ -1,8 +1,3 @@
-// 1. index.js 进行原生的Promise演示
-// 2. promise.js 自定义的promise
-// 3. test.js 对promise.js进行测试
-// 4. 开发过程结合 Promise/A+ 规范
-
 new Promise((resolve, reject) => {
   resolve(1);
   reject(2);
