@@ -1,55 +1,52 @@
 const Promise = require('./promise');
 
-new Promise((resolve, reject) => {
-  resolve(1);
-}).then(
-  (value) => {
-    return new Promise((resolve2) => {
+const promise = new Promise((resolve, reject) => {
+  // setTimeout(() => {
+  // resolve(1);
+
+  resolve(new Promise((resolve) => {
+    resolve(1);
+  }));
+});
+
+const promise2 = promise.then((value) => {
+  // throw new Error('error');
+  // return value;
+  console.log(value);
+  return new Promise((resolve) => {
+    resolve(value + 1)
+  });
+}, (reason) => {
+  console.log(reason)
+});
+
+promise2.then((value) => {
+  console.log(value);
+  return new Promise((resolve) => {
+    resolve(new Promise((resolve) => {
       setTimeout(() => {
-        resolve2(value);
-      })
-    });
-  },
-  (reason) => {
-    return `reject ${reason}`;
-  }
-).then(
-  (value) => {
-    console.log('resolve2', value);
-  },
-  (reason) => {
-    console.log('reject2', reason);
-  }
-);
+        resolve(value + 1);
+      });
+    }));
+  })
+}, (reason) => {
+  console.log(reason)
+  return 1000;
+}).then((value) => {
+  console.log(value);
+});
 
-// new Promise((resolve, reject) => {
-//   resolve(1);
-// }).then(
-//   (value) => {
-//     throw new Error('abc');
-//   },
-//   (reason) => {
-//     return `reject ${reason}`;
+// x = {}
+
+// Object.defineProperty(x, 'then', {
+//   get() {
+//     const x = parseInt((Math.random() * 2));
+//     if(x === 0) {
+//       console.log(123);
+//     } else {
+//       throw new Error('err123');
+//     }
 //   }
-// ).catch((e) => {
-//   console.log(123);
-//   console.log(e);
-// });
-
-// const fetchArr = [];
-// const a = new Promise((resolve) => {
-//   setTimeout(() => {
-//     resolve(1);
-//   }, 100);
-// })
-// const b = new Promise((resolve) => {
-//   setTimeout(() => {
-//     resolve(2);
-//   }, 200);
 // })
 
-// fetchArr.push(a);
-// fetchArr.push(b);
-// Promise.all(fetchArr).then((res) => {
-//   console.log(res);
-// });
+// console.log(x.then);

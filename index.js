@@ -1,37 +1,19 @@
-new Promise((resolve, reject) => {
-  resolve(1);
-  reject(2);
-}).then(
-  (value) => {
-    return Promise.resolve('123');
-  },
-  (reason) => {
-    console.log(reason);
-    return `reject ${reason}`;
-  }
-).then(
-  (value) => {
-    console.log('resolve2', value);
-  },
-  (reason) => {
-    console.log('reject2', reason);
-  }
-);
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(1);
+  });
+});
 
-// const fetchArr = [];
-// const a = () => new Promise((resolve) => {
-//   setTimeout(() => {
-//     resolve(1);
-//   }, 100);
-// })
-// const b = () => new Promise((resolve) => {
-//   setTimeout(() => {
-//     resolve(2);
-//   }, 200);
-// })
+const promise2 = promise.then((value) => {
+  // console.log(value);
+  // return value;
+  return promise2; // promise2需要根据 x 的值来改变状态， 返回的 x又是promise2本身， 造成死循环
+}, (reason) => {
+  console.log(reason)
+});
 
-// fetchArr.push(a());
-// fetchArr.push(b());
-// Promise.all(fetchArr).then((res) => {
-//   console.log(res);
-// });
+promise2.then((value) => {
+  console.log(value);
+}, (reason) => {
+  console.log(reason)
+})
